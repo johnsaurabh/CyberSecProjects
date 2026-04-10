@@ -37,7 +37,7 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 | `Portscanner` | Network utility | Working | Syntax check and contained localhost functional test | Minimal UX, broad exception swallowing, no structured output | Low |
 | `DNSSpoof_Detector` | Network security monitor | Prototype | Syntax check only; direct run failed due to missing `scapy` | Missing dependencies, README references wrong filename, DNS validation logic can create false positives | Medium |
 | `PhishingDetector` | URL phishing detection | Working | Syntax check, feature extraction, model training, CLI scoring, and local API validation | Demo dataset only; lexical features only; no live reputation or content analysis | Completed |
-| `SteganographyDetector` | Image forensics utility | Faulty | Syntax check only; direct run failed due to missing `cv2` | Hardcoded input file, weak detection logic, no message delimiter or stop condition, undeclared dependencies | High |
+| `SteganographyDetector` | Image forensics utility | Working | Syntax check, demo asset generation, decode validation, compare validation, and image analysis validation | Baseline comparison is strongest when the original cover image is available; heuristic analysis remains non-authoritative | Completed |
 | `MalwareC2Server` | C2 simulation | Faulty / Unsafe To Run | Syntax check and static review only | Placeholder addresses, no real operator command workflow, client/server identity mismatch, incomplete operational model | High |
 | `ReverseShell_AES` | Encrypted reverse shell demo | Prototype / Unsafe To Run | Syntax check and static review only | Placeholder attacker host, undeclared crypto dependency, fixed IV, incomplete deployment flow | High |
 | `Simplified Keylogger` | Endpoint surveillance demo | Prototype / Unsafe To Run | Syntax check and static review only | Placeholder credentials, depends on `pynput`, impractical Gmail SMTP flow, not suitable as a verified working deliverable | High |
@@ -81,12 +81,15 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 - File: `SteganographyDetector/Detector.py`
 - Result: passed `python -m py_compile`
-- Result: direct run failed due to missing `cv2`
+- Result: demo workflow generated reproducible cover, stego, and overlay images
+- Result: decode command successfully recovered the embedded message
+- Result: compare command successfully quantified and visualized modified pixels
+- Result: analyze command successfully summarized LSB distribution
 - Findings:
-  - hardcoded `hidden_message.png` input
-  - no stop marker or message length for decoding
-  - any odd-valued RGB channel is treated as evidence of modification, which is not a reliable detector
-- Conclusion: currently faulty
+  - project was rebuilt as a working LSB encode/decode and baseline-comparison utility
+  - a 32-bit length prefix is now used for reliable payload recovery
+  - demo samples can be generated and rendered directly on GitHub
+- Conclusion: repaired and verified as working
 
 ### 5. MalwareC2Server
 
@@ -133,13 +136,12 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 ## Recommended Fix Order
 
-1. `SteganographyDetector`
-2. `DNSSpoof_Detector`
-3. `Portscanner`
-4. `MalwareC2Server`
-5. `ReverseShell_AES`
-6. `Simplified Keylogger`
-7. `StealthyRootkit`
+1. `DNSSpoof_Detector`
+2. `Portscanner`
+3. `MalwareC2Server`
+4. `ReverseShell_AES`
+5. `Simplified Keylogger`
+6. `StealthyRootkit`
 
 ## Rationale For Fix Order
 
@@ -158,4 +160,4 @@ All repaired projects should be updated in the existing repository:
 
 ## Next Step
 
-Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector` has now been repaired and validated, so the next best candidate is `SteganographyDetector`.
+Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector` and `SteganographyDetector` have now been repaired and validated, so the next best candidate is `DNSSpoof_Detector`.
