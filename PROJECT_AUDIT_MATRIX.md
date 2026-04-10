@@ -34,7 +34,7 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 | Project | Type | Status | Safe Validation Performed | Primary Issues | Fix Priority |
 |---|---|---|---|---|---|
-| `Portscanner` | Network utility | Working | Syntax check and contained localhost functional test | Minimal UX, broad exception swallowing, no structured output | Low |
+| `Portscanner` | Network utility | Working | Syntax check, contained localhost functional test, and JSON output validation | Lightweight TCP connect scanner only; no service fingerprinting or banner grabbing | Completed |
 | `DNSSpoof_Detector` | Network security monitor | Working | Syntax check, demo PCAP generation, offline PCAP analysis, and CSV finding export validation | Baseline-driven detection requires curated expected records; encrypted DNS is out of scope | Completed |
 | `PhishingDetector` | URL phishing detection | Working | Syntax check, feature extraction, model training, CLI scoring, and local API validation | Demo dataset only; lexical features only; no live reputation or content analysis | Completed |
 | `SteganographyDetector` | Image forensics utility | Working | Syntax check, demo asset generation, decode validation, compare validation, and image analysis validation | Baseline comparison is strongest when the original cover image is available; heuristic analysis remains non-authoritative | Completed |
@@ -50,7 +50,11 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 - File: `Portscanner/portscanner.py`
 - Result: passed `python -m py_compile`
 - Result: succeeded in a contained localhost test against a temporary listener
-- Conclusion: functional for basic scanning, but needs polish before being called GitHub-ready
+- Result: JSON output mode validated successfully
+- Findings:
+  - project now includes proper CLI argument parsing, timeout tuning, and structured output
+  - the original interactive-only proof of concept was upgraded into a cleaner utility
+- Conclusion: repaired and verified as working
 
 ### 2. DNSSpoof_Detector
 
@@ -138,11 +142,10 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 ## Recommended Fix Order
 
-1. `Portscanner`
-2. `MalwareC2Server`
-3. `ReverseShell_AES`
-4. `Simplified Keylogger`
-5. `StealthyRootkit`
+1. `MalwareC2Server`
+2. `ReverseShell_AES`
+3. `Simplified Keylogger`
+4. `StealthyRootkit`
 
 ## Rationale For Fix Order
 
@@ -161,4 +164,4 @@ All repaired projects should be updated in the existing repository:
 
 ## Next Step
 
-Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector`, `SteganographyDetector`, and `DNSSpoof_Detector` have now been repaired and validated, so the next best candidate is `Portscanner`.
+Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector`, `SteganographyDetector`, `DNSSpoof_Detector`, and `Portscanner` have now been repaired and validated, so the next best candidate is `MalwareC2Server`.
