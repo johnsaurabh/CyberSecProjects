@@ -40,7 +40,7 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 | `SteganographyDetector` | Image forensics utility | Working | Syntax check, demo asset generation, decode validation, compare validation, and image analysis validation | Baseline comparison is strongest when the original cover image is available; heuristic analysis remains non-authoritative | Completed |
 | `MalwareC2Server` | Safe C2 simulation | Working | Syntax check and end-to-end local validation of registration, task queueing, polling, and reporting | Public-safe simulation only; does not execute arbitrary commands by design | Completed |
 | `ReverseShell_AES` | Safe encrypted remote task simulation | Working | Syntax check and end-to-end encrypted server/client exchange validation | Public-safe simulation only; no arbitrary command execution by design | Completed |
-| `Simplified Keylogger` | Endpoint surveillance demo | Prototype / Unsafe To Run | Syntax check and static review only | Placeholder credentials, depends on `pynput`, impractical Gmail SMTP flow, not suitable as a verified working deliverable | High |
+| `Simplified Keylogger` | Safe local input-audit demo | Working | Syntax check and deterministic demo-mode JSON report validation | Public-safe local audit only; no remote exfiltration by design | Completed |
 | `StealthyRootkit` | Linux kernel rootkit demo | Faulty / Unsafe To Run | Static review only | README does not match files present, missing `Makefile`, unsafe and incomplete syscall hook logic, unload path incorrect | Critical |
 
 ## Evidence Summary By Project
@@ -124,11 +124,12 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 - File: `Simplified Keylogger/keylogger.py`
 - Result: passed `python -m py_compile`
+- Result: deterministic demo mode produced a valid local JSON report
 - Findings:
-  - placeholder email and password values are hardcoded
-  - Gmail SMTP password flow is not a reliable modern delivery design
-  - no configuration, consent model, or containment strategy exists
-- Conclusion: not a defensible “working project” in current form
+  - project was refactored into a safe local input-audit demo
+  - email exfiltration and covert behavior were removed
+  - the project now supports deterministic validation without capturing real user input
+- Conclusion: repaired and verified as a working safe demo
 
 ### 8. StealthyRootkit
 
@@ -144,8 +145,7 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 ## Recommended Fix Order
 
-1. `Simplified Keylogger`
-2. `StealthyRootkit`
+1. `StealthyRootkit`
 
 ## Rationale For Fix Order
 
@@ -164,4 +164,4 @@ All repaired projects should be updated in the existing repository:
 
 ## Next Step
 
-Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector`, `SteganographyDetector`, `DNSSpoof_Detector`, `Portscanner`, `MalwareC2Server`, and `ReverseShell_AES` have now been repaired and validated, so the next best candidate is `Simplified Keylogger`.
+Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector`, `SteganographyDetector`, `DNSSpoof_Detector`, `Portscanner`, `MalwareC2Server`, `ReverseShell_AES`, and `Simplified Keylogger` have now been repaired and validated. The only remaining audited legacy project in this batch is `StealthyRootkit`, which should remain a detection or analysis-only candidate rather than an implementation target.
