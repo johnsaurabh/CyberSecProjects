@@ -35,7 +35,7 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 | Project | Type | Status | Safe Validation Performed | Primary Issues | Fix Priority |
 |---|---|---|---|---|---|
 | `Portscanner` | Network utility | Working | Syntax check and contained localhost functional test | Minimal UX, broad exception swallowing, no structured output | Low |
-| `DNSSpoof_Detector` | Network security monitor | Prototype | Syntax check only; direct run failed due to missing `scapy` | Missing dependencies, README references wrong filename, DNS validation logic can create false positives | Medium |
+| `DNSSpoof_Detector` | Network security monitor | Working | Syntax check, demo PCAP generation, offline PCAP analysis, and CSV finding export validation | Baseline-driven detection requires curated expected records; encrypted DNS is out of scope | Completed |
 | `PhishingDetector` | URL phishing detection | Working | Syntax check, feature extraction, model training, CLI scoring, and local API validation | Demo dataset only; lexical features only; no live reputation or content analysis | Completed |
 | `SteganographyDetector` | Image forensics utility | Working | Syntax check, demo asset generation, decode validation, compare validation, and image analysis validation | Baseline comparison is strongest when the original cover image is available; heuristic analysis remains non-authoritative | Completed |
 | `MalwareC2Server` | C2 simulation | Faulty / Unsafe To Run | Syntax check and static review only | Placeholder addresses, no real operator command workflow, client/server identity mismatch, incomplete operational model | High |
@@ -56,12 +56,14 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 - Files: `DNSSpoof_Detector/Spoof_detector.py`, `DNSSpoof_Detector/README.md`
 - Result: passed `python -m py_compile`
-- Result: direct run failed due to missing `scapy`
+- Result: demo PCAP generation succeeded
+- Result: offline PCAP analysis detected spoofed `A` and `AAAA` answers correctly
+- Result: CSV findings export succeeded
 - Findings:
-  - README tells user to run `dns_spoof_detector.py`, but actual file is `Spoof_detector.py`
-  - dependency list is not captured in a reproducible requirements file
-  - A and AAAA resolution are handled in one broad try block, which can produce empty trusted sets and false positives
-- Conclusion: not verified working
+  - project was rebuilt around a safer offline-analysis workflow with optional live sniffing
+  - baseline DNS expectations are now supplied from a reproducible JSON file
+  - sample PCAP and findings artifacts can be generated for local validation and GitHub presentation
+- Conclusion: repaired and verified as working
 
 ### 3. PhishingDetector
 
@@ -136,12 +138,11 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 ## Recommended Fix Order
 
-1. `DNSSpoof_Detector`
-2. `Portscanner`
-3. `MalwareC2Server`
-4. `ReverseShell_AES`
-5. `Simplified Keylogger`
-6. `StealthyRootkit`
+1. `Portscanner`
+2. `MalwareC2Server`
+3. `ReverseShell_AES`
+4. `Simplified Keylogger`
+5. `StealthyRootkit`
 
 ## Rationale For Fix Order
 
@@ -160,4 +161,4 @@ All repaired projects should be updated in the existing repository:
 
 ## Next Step
 
-Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector` and `SteganographyDetector` have now been repaired and validated, so the next best candidate is `DNSSpoof_Detector`.
+Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector`, `SteganographyDetector`, and `DNSSpoof_Detector` have now been repaired and validated, so the next best candidate is `Portscanner`.

@@ -1,89 +1,131 @@
-DNS Spoofing Detection Tool
+# DNSSpoof_Detector
 
-Overview:
-DNS spoofing (also known as DNS cache poisoning) is a cyber attack where a malicious DNS response is used to redirect users to fake websites instead of the intended legitimate domain. This tool captures DNS traffic in real-time and detects spoofing attempts by comparing responses with legitimate DNS records.
+## Overview
 
-Features:
+`DNSSpoof_Detector` is a DNS-answer validation tool designed to identify suspicious DNS responses by comparing observed `A` and `AAAA` records against an expected-record baseline. The project now supports:
 
-Real-time DNS Packet Sniffing (Using Scapy)
+- offline PCAP analysis for safe and reproducible validation
+- optional live DNS sniffing for real-time monitoring
+- CSV export of spoofing findings
+- demo PCAP generation for GitHub-ready testing
 
-Dynamic DNS Verification (Uses dnspython to fetch legitimate records)
+This version replaces a fragile live-sniff-only prototype with a workflow that can be executed and validated locally without requiring real attack traffic.
 
-Logs Spoofing Attempts to a CSV file
+## What The Project Demonstrates
 
-WHOIS Lookup for Malicious IPs
+- DNS packet parsing with Scapy
+- detection of mismatched `A` and `AAAA` DNS answers
+- offline network-forensics validation using PCAP files
+- structured CSV logging of security findings
+- defensive network monitoring workflow
 
-IPv4 and IPv6 Detection (Handles A and AAAA records)
+## Project Structure
 
-Exception Handling for Stability
+```text
+DNSSpoof_Detector/
+|-- Spoof_detector.py
+|-- README.md
+|-- requirements.txt
+|-- sample_expected_records.json
+`-- samples/
+```
 
-Extensible for Additional Security Features
+After running the demo workflow, the `samples/` directory contains:
 
-Installation:
+- `sample_dns_spoof.pcap`
+- `findings.csv`
 
-Clone the Repository:
-git clone 
-cd 
+## Requirements
 
-Install Dependencies:
-pip install scapy dnspython termcolor whois requests
+```powershell
+python -m pip install -r requirements.txt
+```
 
-Run the DNS Spoofing Detector:
-sudo python3 dns_spoof_detector.py
+## Expected-Record Baseline
 
-(Note: Root access is required for sniffing network packets)
+The detector compares observed DNS responses against a JSON file containing known-good answers. Example format:
 
-How It Works:
+```json
+{
+  "example.com": {
+    "A": ["93.184.216.34"],
+    "AAAA": []
+  },
+  "ipv6.example.com": {
+    "A": [],
+    "AAAA": ["2606:2800:220:1:248:1893:25c8:1946"]
+  }
+}
+```
 
-The tool captures live DNS packets on UDP port 53.
+## Usage
 
-It extracts domain queries and their corresponding responses.
+### 1. Generate a demo PCAP
 
-It dynamically fetches legitimate DNS records and compares them with the response.
+```powershell
+cd D:\Cybersec\DNSSpoof_Detector
+python Spoof_detector.py generate-demo --output samples\sample_dns_spoof.pcap --expected sample_expected_records.json
+```
 
-If a mismatched IP is detected, the tool:
+This generates a PCAP containing:
 
-Prints an alert on the screen.
+- legitimate `A` and `AAAA` DNS answers
+- spoofed `A` and `AAAA` DNS answers
 
-Logs the attack details in a CSV file.
+### 2. Analyze the demo PCAP
 
-Performs a WHOIS lookup to gather information about the attacker’s IP address.
+```powershell
+python Spoof_detector.py analyze-pcap --pcap samples\sample_dns_spoof.pcap --expected sample_expected_records.json --output samples\findings.csv
+```
 
-Example Output:
-[INFO] Starting Real-Time DNS Spoofing Detector...
-[INFO] Press Ctrl+C to stop.
-[ALERT] DNS Spoofing Detected! Query: google.com, Fake IP: 192.168.1.100
-[ALERT] DNS Spoofing Detected! Query: facebook.com, Fake IPv6: 2607:f8b0:4005:808::200e
+Expected behavior:
 
-The log entry is saved in dns_spoofing_log.csv with the following details:
-Timestamp | Query | Fake IP | Expected IPs | WHOIS Info
-2025-03-07 14:30:12 | google.com | 192.168.1.100 | 142.250.74.206 | WHOIS Lookup Data
+- spoofed answers are printed to the console
+- findings are written to `samples\findings.csv`
 
-Configuration:
-Modify detection behavior by adjusting parameters in the script:
+## Sample Findings Artifact
 
-Update the log file path in LOG_FILE = "dns_spoofing_log.csv"
+Once generated, the sample findings file can be reviewed directly:
 
-Adjust the DNS lookup timeout in the resolver settings:
-resolver.timeout = 2
-resolver.lifetime = 2
+- `samples/findings.csv`
 
-Future Enhancements:
+### 3. Live sniffing
 
-Email notifications for detected spoofing attempts
+```powershell
+python Spoof_detector.py live-sniff --expected sample_expected_records.json --output samples\live_findings.csv
+```
 
-Integration with VirusTotal API for IP reputation checks
+Notes:
 
-GUI for easier management and visualization of logs
+- live sniffing requires packet-capture privileges
+- this mode is best for a local lab or test VM
 
+## Example Detection Output
 
-Highlights:
+```json
+{"query": "example.com", "record_type": "A", "observed_value": "203.0.113.77", "expected_values": ["93.184.216.34"], "source_ip": "203.0.113.10"}
+{"query": "ipv6.example.com", "record_type": "AAAA", "observed_value": "2001:db8::bad", "expected_values": ["2606:2800:220:1:248:1893:25c8:1946"], "source_ip": "2001:db8::10"}
+{"finding_count": 2}
+```
 
-Provides real-world DNS attack detection techniques
+## Design Improvements Over The Original Prototype
 
-Demonstrates practical skills in network security and packet analysis
+- adds safe offline validation instead of requiring live traffic only
+- removes broken documentation and mismatched filenames
+- uses explicit baseline records rather than relying on uncontrolled live lookups
+- exports findings in a reproducible CSV format
+- cleanly supports both IPv4 and IPv6 DNS answer validation
 
-Uses industry-relevant tools such as Scapy and WHOIS for threat intelligence
+## Limitations
 
-Author:
-Developed by John Saurabh Battu
+- detection quality depends on the correctness of the expected baseline file
+- this project validates answer mismatches, not all possible DNS attack techniques
+- live sniffing depends on local packet-capture privileges and environment support
+- encrypted DNS protocols such as DoH and DoT are out of scope
+- some Scapy environments on Windows may print a `libpcap` warning during offline processing, but offline PCAP generation and analysis still work
+
+## Resume-Ready Bullet Points
+
+- Built a DNS spoofing detection utility that analyzes DNS `A` and `AAAA` responses for mismatches against a known-good baseline using Scapy-based packet inspection.
+- Implemented offline PCAP analysis, live sniffing support, and CSV finding export to create a reproducible defensive network-monitoring workflow.
+- Reworked a fragile packet-sniffing prototype into a GitHub-ready security tool with demo traffic generation, clean documentation, and IPv4/IPv6 detection coverage.
