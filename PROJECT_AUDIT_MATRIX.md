@@ -38,7 +38,7 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 | `DNSSpoof_Detector` | Network security monitor | Working | Syntax check, demo PCAP generation, offline PCAP analysis, and CSV finding export validation | Baseline-driven detection requires curated expected records; encrypted DNS is out of scope | Completed |
 | `PhishingDetector` | URL phishing detection | Working | Syntax check, feature extraction, model training, CLI scoring, and local API validation | Demo dataset only; lexical features only; no live reputation or content analysis | Completed |
 | `SteganographyDetector` | Image forensics utility | Working | Syntax check, demo asset generation, decode validation, compare validation, and image analysis validation | Baseline comparison is strongest when the original cover image is available; heuristic analysis remains non-authoritative | Completed |
-| `MalwareC2Server` | C2 simulation | Faulty / Unsafe To Run | Syntax check and static review only | Placeholder addresses, no real operator command workflow, client/server identity mismatch, incomplete operational model | High |
+| `MalwareC2Server` | Safe C2 simulation | Working | Syntax check and end-to-end local validation of registration, task queueing, polling, and reporting | Public-safe simulation only; does not execute arbitrary commands by design | Completed |
 | `ReverseShell_AES` | Encrypted reverse shell demo | Prototype / Unsafe To Run | Syntax check and static review only | Placeholder attacker host, undeclared crypto dependency, fixed IV, incomplete deployment flow | High |
 | `Simplified Keylogger` | Endpoint surveillance demo | Prototype / Unsafe To Run | Syntax check and static review only | Placeholder credentials, depends on `pynput`, impractical Gmail SMTP flow, not suitable as a verified working deliverable | High |
 | `StealthyRootkit` | Linux kernel rootkit demo | Faulty / Unsafe To Run | Static review only | README does not match files present, missing `Makefile`, unsafe and incomplete syscall hook logic, unload path incorrect | Critical |
@@ -101,11 +101,13 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 - Files: `MalwareC2Server/C2Server.py`, `MalwareC2Server/MalwareClient.py`
 - Result: passed `python -m py_compile`
+- Result: local server startup succeeded
+- Result: agent registration, task queueing, polling, and report retrieval succeeded end to end
 - Findings:
-  - client uses placeholder `C2_URL = "http://attacker-ip:8080"`
-  - client asks for commands using hardcoded `"victim-ip"` while server registers machines by `request.remote_addr`
-  - no administrative route or CLI exists to assign commands to registered machines
-- Conclusion: incomplete prototype, not a working end-to-end project
+  - project was refactored into a safe C2 simulation with bounded benign task types
+  - arbitrary shell execution was removed to keep the repository publishable and defensible
+  - the project now includes operator task queueing and structured report retrieval
+- Conclusion: repaired and verified as a working safe simulation
 
 ### 6. ReverseShell_AES
 
@@ -142,10 +144,9 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 ## Recommended Fix Order
 
-1. `MalwareC2Server`
-2. `ReverseShell_AES`
-3. `Simplified Keylogger`
-4. `StealthyRootkit`
+1. `ReverseShell_AES`
+2. `Simplified Keylogger`
+3. `StealthyRootkit`
 
 ## Rationale For Fix Order
 
@@ -164,4 +165,4 @@ All repaired projects should be updated in the existing repository:
 
 ## Next Step
 
-Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector`, `SteganographyDetector`, `DNSSpoof_Detector`, and `Portscanner` have now been repaired and validated, so the next best candidate is `MalwareC2Server`.
+Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector`, `SteganographyDetector`, `DNSSpoof_Detector`, `Portscanner`, and `MalwareC2Server` have now been repaired and validated, so the next best candidate is `ReverseShell_AES`.
