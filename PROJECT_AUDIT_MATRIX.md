@@ -39,7 +39,7 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 | `PhishingDetector` | URL phishing detection | Working | Syntax check, feature extraction, model training, CLI scoring, and local API validation | Demo dataset only; lexical features only; no live reputation or content analysis | Completed |
 | `SteganographyDetector` | Image forensics utility | Working | Syntax check, demo asset generation, decode validation, compare validation, and image analysis validation | Baseline comparison is strongest when the original cover image is available; heuristic analysis remains non-authoritative | Completed |
 | `MalwareC2Server` | Safe C2 simulation | Working | Syntax check and end-to-end local validation of registration, task queueing, polling, and reporting | Public-safe simulation only; does not execute arbitrary commands by design | Completed |
-| `ReverseShell_AES` | Encrypted reverse shell demo | Prototype / Unsafe To Run | Syntax check and static review only | Placeholder attacker host, undeclared crypto dependency, fixed IV, incomplete deployment flow | High |
+| `ReverseShell_AES` | Safe encrypted remote task simulation | Working | Syntax check and end-to-end encrypted server/client exchange validation | Public-safe simulation only; no arbitrary command execution by design | Completed |
 | `Simplified Keylogger` | Endpoint surveillance demo | Prototype / Unsafe To Run | Syntax check and static review only | Placeholder credentials, depends on `pynput`, impractical Gmail SMTP flow, not suitable as a verified working deliverable | High |
 | `StealthyRootkit` | Linux kernel rootkit demo | Faulty / Unsafe To Run | Static review only | README does not match files present, missing `Makefile`, unsafe and incomplete syscall hook logic, unload path incorrect | Critical |
 
@@ -113,12 +113,12 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 - Files: `ReverseShell_AES/ReverseShell_Attacker.py`, `ReverseShell_AES/ReverseShell_Client.py`
 - Result: passed `python -m py_compile`
+- Result: AES-encrypted server/client exchange succeeded end to end
 - Findings:
-  - client uses placeholder `"attacker-ip"`
-  - undeclared dependency on `Crypto` / PyCryptodome
-  - fixed IV is reused for all AES-CBC messages
-  - no packaging, documentation, or safe test harness exists
-- Conclusion: prototype only, not verified runnable
+  - project was refactored into a safe remote-task simulation using AES-GCM instead of a real reverse shell
+  - arbitrary shell execution was removed
+  - the project now includes reproducible local validation and documentation
+- Conclusion: repaired and verified as a working safe simulation
 
 ### 7. Simplified Keylogger
 
@@ -144,9 +144,8 @@ This document tracks the audit status of legacy projects in the `CyberSecProject
 
 ## Recommended Fix Order
 
-1. `ReverseShell_AES`
-2. `Simplified Keylogger`
-3. `StealthyRootkit`
+1. `Simplified Keylogger`
+2. `StealthyRootkit`
 
 ## Rationale For Fix Order
 
@@ -165,4 +164,4 @@ All repaired projects should be updated in the existing repository:
 
 ## Next Step
 
-Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector`, `SteganographyDetector`, `DNSSpoof_Detector`, `Portscanner`, and `MalwareC2Server` have now been repaired and validated, so the next best candidate is `ReverseShell_AES`.
+Use this matrix as the source of truth while fixing projects one by one. `PhishingDetector`, `SteganographyDetector`, `DNSSpoof_Detector`, `Portscanner`, `MalwareC2Server`, and `ReverseShell_AES` have now been repaired and validated, so the next best candidate is `Simplified Keylogger`.
