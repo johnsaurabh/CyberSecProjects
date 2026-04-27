@@ -1,6 +1,6 @@
 # CyberSec Research Projects
 
-A collection of offensive and defensive security tools built for research, education, and authorized lab environments. Each project targets a specific domain of security engineering — from kernel-level persistence to network traffic analysis to ML-based threat detection.
+A collection of offensive and defensive security tools built for research, education, and authorized lab environments. Each project targets a specific domain of security engineering, from kernel-level persistence to network traffic analysis to ML-based threat detection.
 
 All tools are built for **educational purposes and controlled lab environments only**. No tool in this repository is intended for use against systems without explicit authorization.
 
@@ -13,9 +13,9 @@ All tools are built for **educational purposes and controlled lab environments o
 | Project | Language | Description |
 |---------|----------|-------------|
 | [StealthyRootkit](./StealthyRootkit/) | C | Kernel-level LKM rootkit demonstrating syscall hooking, process hiding, and file system stealth. Built to understand how kernel-level persistence actually works at the syscall table level. |
-| [MalwareC2Server](./MalwareC2Server/) | Python | Command-and-control simulation framework modeling real-world attacker infrastructure — server/client comms, task queuing, and execution flows. Built for red team simulation and C2 detection research. |
+| [MalwareC2Server](./MalwareC2Server/) | Python | Command-and-control simulation framework modeling real-world attacker infrastructure: server/client comms, task queuing, and execution flows. Built for red team simulation and C2 detection research. |
 | [ReverseShell_AES](./ReverseShell_AES/) | Python | Encrypted reverse shell using AES to understand how defenders can detect (or miss) encrypted callback channels. Used for testing network monitoring and DPI setups. |
-| [Simplified Keylogger](./SimplifiedKeylogger/) | Python | Basic keylogger demonstrating OS-level input interception. Built as part of endpoint detection research — understanding what keyloggers do is prerequisite to catching them. |
+| [Simplified Keylogger](./SimplifiedKeylogger/) | Python | Basic keylogger demonstrating OS-level input interception. Built as part of endpoint detection research. Understanding what keyloggers do is prerequisite to catching them. |
 
 ### Threat Detection & Defense
 
@@ -49,7 +49,7 @@ All tools are built for **educational purposes and controlled lab environments o
 
 ## Methodology
 
-These projects were built progressively — each one targeting a specific gap in my understanding of a security domain. The pattern is consistent: build the offensive tool to understand it, then build the detection mechanism to catch it.
+These projects were built progressively, each one targeting a specific gap in my understanding of a security domain. The pattern is consistent: build the offensive tool to understand it, then build the detection mechanism to catch it.
 
 The rootkit taught me more about how AV evasion works than any blog post. The C2 server taught me what beaconing patterns look like on the wire. The phishing detector forced me to think about what actually differentiates a convincing phishing page from a legitimate one at a feature level.
 
@@ -61,16 +61,16 @@ Security is easier to defend when you've built the attack.
 
 - All tools are built in isolated lab environments (local VMs, private networks)
 - No tool has been used against systems without authorization
-- Source code is shared for educational purposes — understanding attack techniques is foundational to building effective defenses
+- Source code is shared for educational purposes. Understanding attack techniques is foundational to building effective defenses.
 - HackTheBox, CTF environments, and personal lab infrastructure are the intended deployment targets
 
 ---
 
 ## Related
 
-- [Tartarus Gate](https://github.com/johnsaurabh/Tartarus_Gate) — The production-grade evolution of this research: a full security platform
-- [Vehicle Threat Model](https://github.com/johnsaurabh/vehicle-threat-model) — Applying threat modeling methodology to automotive ECU architecture
-- [Automotive Security Demo](https://github.com/johnsaurabh/automotive-secure-communication-demo) — Secure communication implementation derived from the threat model
+- [Tartarus Gate](https://github.com/johnsaurabh/Tartarus_Gate): the production-grade evolution of this research, a full security platform
+- [Vehicle Threat Model](https://github.com/johnsaurabh/vehicle-threat-model): STRIDE threat modeling applied to automotive ECU architecture
+- [Automotive Security Demo](https://github.com/johnsaurabh/automotive-secure-communication-demo): secure communication implementation derived from the threat model
 
 ---
 
