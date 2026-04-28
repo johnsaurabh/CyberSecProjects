@@ -2,22 +2,28 @@
 
 ## Overview
 
-`DNSSpoof_Detector` is a DNS-answer validation tool designed to identify suspicious DNS responses by comparing observed `A` and `AAAA` records against an expected-record baseline. The project now supports:
+`DNSSpoof_Detector` is a DNS-answer validation tool designed to identify suspicious DNS responses by comparing observed `A` and `AAAA` records against an expected-record baseline. It supports:
 
 - offline PCAP analysis for safe and reproducible validation
 - optional live DNS sniffing for real-time monitoring
 - CSV export of spoofing findings
-- demo PCAP generation for GitHub-ready testing
+- demo PCAP generation for local validation
 
-This version replaces a fragile live-sniff-only prototype with a workflow that can be executed and validated locally without requiring real attack traffic.
+The offline workflow can be executed and validated locally without requiring real attack traffic.
 
-## What The Project Demonstrates
+## Capabilities
 
 - DNS packet parsing with Scapy
 - detection of mismatched `A` and `AAAA` DNS answers
 - offline network-forensics validation using PCAP files
 - structured CSV logging of security findings
 - defensive network monitoring workflow
+
+## Tech Stack
+
+- Python 3
+- Scapy for packet parsing and PCAP handling
+- Standard library: `argparse`, `csv`, `json`, `pathlib`
 
 ## Project Structure
 
@@ -108,14 +114,6 @@ Notes:
 {"finding_count": 2}
 ```
 
-## Design Improvements Over The Original Prototype
-
-- adds safe offline validation instead of requiring live traffic only
-- removes broken documentation and mismatched filenames
-- uses explicit baseline records rather than relying on uncontrolled live lookups
-- exports findings in a reproducible CSV format
-- cleanly supports both IPv4 and IPv6 DNS answer validation
-
 ## Limitations
 
 - detection quality depends on the correctness of the expected baseline file
@@ -123,9 +121,3 @@ Notes:
 - live sniffing depends on local packet-capture privileges and environment support
 - encrypted DNS protocols such as DoH and DoT are out of scope
 - some Scapy environments on Windows may print a `libpcap` warning during offline processing, but offline PCAP generation and analysis still work
-
-## Resume-Ready Bullet Points
-
-- Built a DNS spoofing detection utility that analyzes DNS `A` and `AAAA` responses for mismatches against a known-good baseline using Scapy-based packet inspection.
-- Implemented offline PCAP analysis, live sniffing support, and CSV finding export to create a reproducible defensive network-monitoring workflow.
-- Reworked a fragile packet-sniffing prototype into a GitHub-ready security tool with demo traffic generation, clean documentation, and IPv4/IPv6 detection coverage.

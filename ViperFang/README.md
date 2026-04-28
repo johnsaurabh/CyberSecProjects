@@ -1,16 +1,19 @@
-Viper’s Fang Documentation
-Overview
-Viper’s Fang is an advanced offensive security tool that automates the discovery, generation, and delivery of exploits targeting web application vulnerabilities. It’s not a scattershot script kiddie toy—it’s a sophisticated, multi-stage system that blends static and dynamic analysis, machine learning, and custom payload crafting to strike with lethal accuracy. Think of it as a venomous predator: it finds its prey, tailors its attack, and delivers a fatal blow, all while leaving a trail of brilliance for your resume.
+# Viper's Fang
 
-Project Goal
-Focus: Automate the end-to-end process of exploiting web app vulnerabilities (e.g., XSS, SQLi, RCE) with minimal human intervention.
+## Overview
+
+Viper's Fang is an offensive security research project for web application vulnerability discovery, exploit generation, and payload delivery workflows. The project combines crawling, probing, static and dynamic analysis concepts, payload templating, and structured logging.
+
+## Project Goal
+
+Focus: automate the end-to-end process of identifying and validating web application vulnerabilities such as XSS, SQL injection, and RCE in authorized test environments.
+
+Purpose: document the intended architecture for vulnerability discovery, exploit development, and payload delivery components.
 
 
-Purpose: Demonstrate elite offensive security skills—vulnerability discovery, exploit development, and payload delivery—wrapped in a complex, production-grade codebase.
+## Architecture
 
-
-Architecture
-Viper’s Fang is built as a single, cohesive system with three tightly integrated phases, all coded in Python for flexibility and power:
+Viper's Fang is organized as a Python system with three phases:
 1. Recon Phase (Venom Scout)
 Purpose: Identify vulnerabilities in target web applications.
 

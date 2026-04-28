@@ -2,14 +2,14 @@
 
 ## Overview
 
-`Simplified Keylogger` has been converted into a safe local keystroke-audit demo. It no longer sends email, does not exfiltrate captured data, and is intended only for transparent local input-audit demonstrations in a controlled environment.
+`Simplified Keylogger` is a safe local keystroke-audit demo. It does not send email, does not exfiltrate captured data, and is intended only for transparent local input-audit checks in a controlled environment.
 
-The project now supports:
+The project supports:
 
 - local keyboard event capture for a fixed duration
 - local JSON report generation
 - deterministic `--demo` mode for validation without capturing real input
-- clear, public-repository-safe behavior
+- clear local-only behavior
 
 ## Safety Model
 
@@ -18,6 +18,12 @@ This repository version:
 - writes capture results to a local JSON file only
 - does not send data to email, remote servers, or external services
 - is intended for consent-based local testing only
+
+## Tech Stack
+
+- Python 3
+- pynput for keyboard event capture
+- Standard library: `argparse`, `json`, `time`, `pathlib`
 
 ## Project Structure
 
@@ -65,15 +71,8 @@ This starts a local capture for a fixed number of seconds and writes a JSON repo
 }
 ```
 
-## What The Project Demonstrates
+## Capabilities
 
 - keyboard event handling with `pynput`
 - local audit logging
-- safe refactoring of an unsafe prototype
 - bounded runtime and transparent output handling
-
-## Resume-Ready Bullet Points
-
-- Built a safe local keystroke-audit demo that captures input for a fixed duration and writes structured JSON reports without any remote exfiltration.
-- Implemented keyboard event normalization, local file reporting, and a deterministic demo mode for reproducible validation in a controlled lab setting.
-- Refactored an unsafe proof-of-concept into a GitHub-ready input-audit utility suitable for secure coding and endpoint-monitoring discussions.

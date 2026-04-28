@@ -7,17 +7,23 @@
 - embedding a controlled demo payload into a cover image
 - decoding messages from LSB-encoded images that use this format
 - comparing a clean cover image against a suspect image to visualize modified pixels
-- generating reproducible demo assets for validation and GitHub presentation
+- generating reproducible demo assets for validation
 
-This project replaces an earlier unreliable prototype with a working, baseline-aware workflow that can actually be tested end to end.
+The workflow can be tested end to end with generated sample assets.
 
-## What The Project Demonstrates
+## Capabilities
 
 - image-based data hiding with LSB steganography
 - structured binary payload handling using a 32-bit length prefix
 - cover-vs-stego forensic comparison
 - visualization of modified pixels
 - reproducible CLI-based validation
+
+## Tech Stack
+
+- Python 3
+- Pillow for image loading, pixel access, and output generation
+- Standard library: `argparse`, `json`, `struct`, `pathlib`
 
 ## Project Structure
 
@@ -118,19 +124,13 @@ This is more defensible than treating “odd RGB values” alone as evidence of 
 
 ## Limitations
 
-- reliable comparison requires the original cover image
+- reliable comparison requires the source cover image
 - decode mode assumes the image was encoded using this tool’s length-prefixed format
 - the analysis command provides heuristics only, not proof of hidden content in arbitrary third-party images
-- this is an educational and portfolio project, not a courtroom-grade forensic suite
+- this is an educational project, not a courtroom-grade forensic suite
 
-## GitHub-Friendly Workflow
+## Sample Workflow
 
 1. Run the `demo` command.
 2. Commit the generated `samples/` images if desired.
-3. Reference the images in the README so viewers can see the cover, stego, and overlay results directly on GitHub.
-
-## Resume-Ready Bullet Points
-
-- Built a working LSB steganography analysis tool that embeds and decodes structured hidden payloads and visualizes modified pixels through cover-versus-stego comparison.
-- Implemented a deterministic demo workflow for image-forensics validation, including payload-length handling, pixel-difference overlays, and quantitative modification summaries.
-- Reworked an unreliable steganography prototype into a GitHub-ready security project with reproducible CLI execution, sample asset generation, and clear forensic limitations.
+3. Reference the images in the README if the sample assets are included in the repository.

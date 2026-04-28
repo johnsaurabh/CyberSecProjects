@@ -10,14 +10,19 @@
 - structured JSON output
 - reproducible local validation
 
-This version keeps the original project simple while making it more usable, testable, and presentable in a public repository.
+The scanner is intentionally small and focused on local lab use.
 
-## What The Project Demonstrates
+## Capabilities
 
 - TCP port reachability testing
 - threaded network scanning
 - CLI-based security utility design
 - human-readable and machine-readable output modes
+
+## Tech Stack
+
+- Python 3
+- Standard library: `socket`, `threading`, `argparse`, `json`, `queue`
 
 ## Usage
 
@@ -61,9 +66,3 @@ Completed scan. Open ports: 2 / 3 checked.
 - it does not perform service fingerprinting or banner grabbing
 - results depend on local firewall rules and network reachability
 - use only in environments you are authorized to test
-
-## Resume-Ready Bullet Points
-
-- Built a threaded TCP port scanner with configurable targets, ranges, timeouts, and JSON output for lightweight network enumeration.
-- Implemented concurrent socket-based scanning logic to identify open ports efficiently across lab or test environments.
-- Refined a minimal proof-of-concept into a GitHub-ready security utility with clean CLI behavior, documentation, and reproducible validation workflow.

@@ -2,9 +2,9 @@
 
 ## Overview
 
-`ReverseShell_AES` has been converted into a safe encrypted remote task simulation. It preserves the original idea of an AES-protected client/server exchange over sockets, but removes arbitrary command execution and replaces it with a fixed set of benign built-in tasks.
+`ReverseShell_AES` is a safe encrypted remote task simulation. It uses an AES-protected client/server exchange over sockets with a fixed set of benign built-in tasks.
 
-The project now demonstrates:
+The project includes:
 
 - AES-GCM protected socket communication
 - framed JSON message exchange
@@ -20,6 +20,12 @@ This repository version does **not** implement a real reverse shell and does **n
 - `collect_os`
 - `collect_time`
 - `heartbeat`
+
+## Tech Stack
+
+- Python 3
+- PyCryptodome for AES-GCM encryption
+- Standard library: `socket`, `json`, `argparse`, `struct`, `platform`
 
 ## Project Structure
 
@@ -58,16 +64,9 @@ Expected behavior:
 - the client decrypts the task, executes a benign built-in action, and sends back an encrypted JSON result
 - both sides print structured output locally
 
-## What The Project Demonstrates
+## Capabilities
 
 - encrypted client/server communication over raw TCP sockets
 - authenticated encryption using AES-GCM
 - framed JSON messaging
 - safe task dispatch architecture
-- public-repository-safe refactoring of an unsafe prototype
-
-## Resume-Ready Bullet Points
-
-- Built a safe AES-encrypted remote task simulation that demonstrates framed socket communication, authenticated encryption, and structured JSON messaging between a controller and client.
-- Implemented AES-GCM message protection and bounded task execution for hostname, OS, time, and heartbeat collection in a local lab workflow.
-- Refactored an unsafe reverse-shell prototype into a GitHub-ready encrypted client/server project suitable for secure coding and malware-analysis-lab discussion.

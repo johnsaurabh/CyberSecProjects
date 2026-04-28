@@ -10,6 +10,13 @@ This project is a stealthy Linux rootkit implemented as a kernel module (LKM). I
 - Creates a backdoor user with `sudo` access.
 - Operates as a Loadable Kernel Module (LKM) for easy installation and removal.
 
+## Tech Stack
+
+- C
+- Linux kernel module APIs
+- Linux syscall table hook concepts
+- GCC and kernel headers for local builds
+
 ## Project Structure
 - `rootkit.c` - The main kernel module that hooks system calls.
 - `Makefile` - Compilation instructions for building the kernel module.

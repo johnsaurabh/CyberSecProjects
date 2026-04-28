@@ -4,15 +4,21 @@
 
 `PhishingDetector` is a lightweight URL phishing-detection project designed to be runnable locally without heavy ML frameworks or external threat-intelligence dependencies. It extracts security-relevant lexical URL features, trains a compact logistic-regression classifier, and exposes a local HTTP API for scoring suspicious links.
 
-This project replaces an earlier nonfunctional prototype with a working, self-contained implementation that is easier to validate, explain, and maintain in a portfolio repository.
+The implementation is self-contained and can be validated locally.
 
-## What The Project Demonstrates
+## Capabilities
 
 - URL feature engineering for phishing detection
 - classification workflow from labeled dataset to trained model
 - local API exposure for real-time scoring
 - clean CLI-based security tooling
 - documentation and reproducible execution
+
+## Tech Stack
+
+- Python 3
+- Standard library: `argparse`, `csv`, `http.server`, `json`, `math`, `urllib`
+- Lightweight logistic-regression implementation stored as JSON model parameters
 
 ## Project Structure
 
@@ -30,13 +36,13 @@ PhishingDetector/
 The historical file names are preserved for repository continuity:
 
 - `phish_sense_feature_extractor.py` extracts URL features into a CSV dataset.
-- `phish_guard_lstm.py` now trains and serves a lightweight logistic-regression classifier rather than an LSTM model.
+- `phish_guard_lstm.py` trains and serves a lightweight logistic-regression classifier.
 
-This change was made deliberately so the project is:
+This implementation is:
 
 - runnable on a clean Python installation
 - easy to test locally
-- suitable for GitHub and resume use
+- suitable for local validation
 
 ## Features Used For Detection
 
@@ -66,7 +72,7 @@ The included `url_dataset.csv` contains a small labeled sample set with:
 - `0` for legitimate URLs
 - `1` for phishing-like URLs
 
-The dataset is intended for demonstration and local validation, not production-grade detection accuracy.
+The dataset is intended for local validation, not production-grade detection accuracy.
 
 ## Requirements
 
@@ -157,7 +163,7 @@ curl http://127.0.0.1:5000/health
 
 ## Security Limitations
 
-This project is a demonstrator, not a production anti-phishing stack. Known limitations:
+This project is not a production anti-phishing stack. Known limitations:
 
 - uses a small local dataset only
 - relies on lexical URL features rather than rendered page analysis
@@ -172,9 +178,3 @@ This project is a demonstrator, not a production anti-phishing stack. Known limi
 - add URL normalization and redirect-chain handling
 - add confusion-matrix reporting and test splits
 - add containerized deployment for the local API
-
-## Resume-Ready Bullet Points
-
-- Built a self-contained phishing-detection pipeline that extracts security-relevant URL features, trains a lightweight classifier, and exposes a local HTTP API for real-time link scoring.
-- Implemented lexical phishing heuristics including entropy, credential-themed keyword detection, host structure analysis, insecure transport checks, and direct-IP detection to classify suspicious URLs.
-- Reworked a nonfunctional prototype into a GitHub-ready security project with reproducible training, local inference, sample dataset support, and clean documentation suitable for portfolio demonstration.
